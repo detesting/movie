@@ -7,7 +7,7 @@ import MovieCard from '../MovieCard/MovieCard';
 
 import './MovieList.css';
 
-const MovieList = ({ searchText }) => {
+const MovieList = ({ searchText, onChangeDataLocal, dataLocal }) => {
   const movieDB = new MovieDB();
   const [data, setData] = useState([]);
   const [genres, setGenres] = useState({});
@@ -74,7 +74,7 @@ const MovieList = ({ searchText }) => {
                 dataSource={data}
                 renderItem={(item) => (
                   <List.Item>
-                    <MovieCard item={item} genres={genres}>
+                    <MovieCard item={item} genres={genres} onChangeDataLocal={onChangeDataLocal} dataLocal={dataLocal}>
                       Card content
                     </MovieCard>
                   </List.Item>

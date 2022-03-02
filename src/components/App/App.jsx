@@ -14,10 +14,13 @@ const App = () => {
   const [searchText, setSearchText] = useState('');
   const onSearch = (text) => setSearchText(text);
 
+  const [dataLocal, setDataLocal] = useState();
+  const onChangeDataLocal = () => setDataLocal(JSON.parse(localStorage.getItem('moviesRating')));
+
   return (
     <div className="app">
       <Online>
-        <Tabs defaultActiveKey="Search" centered className="tabs">
+        <Tabs defaultActiveKey="Search" centered className="tabs" onChange={() => onChangeDataLocal()}>
           <TabPane
             tab={
               <span>
@@ -28,7 +31,7 @@ const App = () => {
             key="Search"
           >
             <SearchPanel onSearch={onSearch} searchText={searchText} />
-            <MovieList searchText={searchText} />
+            <MovieList searchText={searchText} onChangeDataLocal={onChangeDataLocal} dataLocal={dataLocal} />
           </TabPane>
           <TabPane
             tab={
@@ -39,7 +42,7 @@ const App = () => {
             }
             key="Rated"
           >
-            <Rated />
+            <Rated dataLocal={dataLocal} onChangeDataLocal={onChangeDataLocal} />
           </TabPane>
         </Tabs>
       </Online>

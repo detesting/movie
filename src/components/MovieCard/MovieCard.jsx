@@ -7,7 +7,7 @@ import ItemGenres from '../ItemGenres/ItemGenres';
 
 const { Title, Text } = Typography;
 
-const MovieItem = ({ item, genres }) => {
+const MovieCard = ({ item, genres, dataLocal, onChangeDataLocal }) => {
   const {
     id,
     poster_path: img,
@@ -51,10 +51,9 @@ const MovieItem = ({ item, genres }) => {
       starsRating: stars,
     };
     let include = false;
-
+    onChangeDataLocal();
     if (localStorage.getItem('moviesRating')) {
-      let localData = JSON.parse(localStorage.getItem('moviesRating'));
-      localData.map((value) => {
+      dataLocal.map((value) => {
         if (value.item.id == id) {
           value.starsRating = stars;
           include = true;
@@ -62,9 +61,9 @@ const MovieItem = ({ item, genres }) => {
         return value;
       });
       if (!include) {
-        localStorage.setItem('moviesRating', JSON.stringify([...localData, data]));
+        localStorage.setItem('moviesRating', JSON.stringify([...dataLocal, data]));
       } else {
-        localStorage.setItem('moviesRating', JSON.stringify(localData));
+        localStorage.setItem('moviesRating', JSON.stringify(dataLocal));
       }
     } else {
       localStorage.setItem('moviesRating', JSON.stringify([data]));
@@ -73,10 +72,9 @@ const MovieItem = ({ item, genres }) => {
   };
 
   const startStars = () => {
-    let data = JSON.parse(localStorage.getItem('moviesRating'));
     let stars;
-    if (data) {
-      data.forEach(({ item, starsRating }) => {
+    if (dataLocal) {
+      dataLocal.forEach(({ item, starsRating }) => {
         if (item.id == id) {
           stars = starsRating;
         }
@@ -86,9 +84,8 @@ const MovieItem = ({ item, genres }) => {
   };
   const [star, setStar] = useState(startStars());
   const viewStars = () => {
-    let data = JSON.parse(localStorage.getItem('moviesRating'));
-    if (data) {
-      data.forEach(({ item, starsRating }) => {
+    if (dataLocal) {
+      dataLocal.forEach(({ item, starsRating }) => {
         if (item.id == id) {
           setStar(starsRating);
         }
@@ -182,4 +179,4 @@ const MovieItem = ({ item, genres }) => {
   );
 };
 
-export default MovieItem;
+export default MovieCard;

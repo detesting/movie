@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, Image, Typography, Rate } from 'antd';
 import format from 'date-fns/format';
 
@@ -7,7 +7,7 @@ import ItemGenres from '../ItemGenres/ItemGenres';
 
 const { Title, Text } = Typography;
 
-const MovieItem = ({ item, genres, dataLocal, OnChangeDataLocal }) => {
+const MovieItem = ({ item, genres }) => {
   const {
     id,
     poster_path: img,
@@ -51,7 +51,7 @@ const MovieItem = ({ item, genres, dataLocal, OnChangeDataLocal }) => {
       starsRating: stars,
     };
     let include = false;
-    OnChangeDataLocal();
+
     if (localStorage.getItem('moviesRating')) {
       let localData = JSON.parse(localStorage.getItem('moviesRating'));
       localData.map((value) => {
@@ -69,21 +69,31 @@ const MovieItem = ({ item, genres, dataLocal, OnChangeDataLocal }) => {
     } else {
       localStorage.setItem('moviesRating', JSON.stringify([data]));
     }
+    viewStars();
   };
-  const [dataLocalStorage, setDataLocalStorage] = useState(dataLocal);
-  useEffect(() => {
-    setDataLocalStorage(dataLocal);
-  }, [dataLocal]);
-  const viewStars = () => {
+
+  const startStars = () => {
+    let data = JSON.parse(localStorage.getItem('moviesRating'));
     let stars;
-    if (dataLocalStorage) {
-      dataLocalStorage.forEach(({ item, starsRating }) => {
+    if (data) {
+      data.forEach(({ item, starsRating }) => {
         if (item.id == id) {
           stars = starsRating;
         }
       });
     }
     return stars ? stars : 0;
+  };
+  const [star, setStar] = useState(startStars());
+  const viewStars = () => {
+    let data = JSON.parse(localStorage.getItem('moviesRating'));
+    if (data) {
+      data.forEach(({ item, starsRating }) => {
+        if (item.id == id) {
+          setStar(starsRating);
+        }
+      });
+    }
   };
   return (
     <div>
@@ -153,8 +163,8 @@ const MovieItem = ({ item, genres, dataLocal, OnChangeDataLocal }) => {
             <div className="content__rate">
               <Rate
                 allowHalf
-                defaultValue={0}
-                value={viewStars()}
+                defaultValue={star}
+                // value={star}
                 count={10}
                 style={{
                   fontSize: 13,

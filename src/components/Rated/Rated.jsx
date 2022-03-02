@@ -3,8 +3,9 @@ import { Col, List, Row } from 'antd';
 
 import MovieCard from '../MovieCard/MovieCard';
 
-const Rated = ({ dataLocal, OnChangeDataLocal }) => {
+const Rated = () => {
   let itemClient = [];
+  let dataLocal = JSON.parse(localStorage.getItem('moviesRating'));
   if (dataLocal) {
     dataLocal.forEach(({ item, genres }) => {
       item.genres = genres;
@@ -29,12 +30,7 @@ const Rated = ({ dataLocal, OnChangeDataLocal }) => {
               dataSource={itemClient}
               renderItem={(item) => (
                 <List.Item>
-                  <MovieCard
-                    item={item}
-                    genres={item.genres}
-                    dataLocal={dataLocal}
-                    OnChangeDataLocal={OnChangeDataLocal}
-                  >
+                  <MovieCard item={item} genres={item.genres}>
                     Card content
                   </MovieCard>
                 </List.Item>

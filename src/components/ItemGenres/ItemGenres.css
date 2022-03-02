@@ -1,0 +1,13 @@
+.genre {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    height: 20px;
+
+    margin: 0;
+}
+.ant-space-item {
+    margin: 0;
+    padding: 0;
+}

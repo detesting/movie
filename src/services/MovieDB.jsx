@@ -15,8 +15,4 @@ export default class MovieDB {
     let { data } = await axios.get(`${this.url}genre/movie/list?${this.api_key}&language=ru-RU`);
     return data;
   }
-
-  // async getMovie(idMovie) {
-  //
-  // }
 }

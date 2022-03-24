@@ -1,3 +1,3 @@
 # Movie App
 
-https://movie-detesting.vercel.app
+https://movie-three-lilac.vercel.app/
